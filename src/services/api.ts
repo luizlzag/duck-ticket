@@ -67,6 +67,7 @@ export interface Performance {
 export interface Category {
   id: number;
   name: string;
+  icon_svg: string;
 }
 
 export interface Event {
@@ -104,6 +105,16 @@ export interface LoginResponse {
   };
 }
 
+export interface CategoriesResponse {
+  data: Category[];
+  pagination: {
+    page: number;
+    pageSize: number;
+    total: number;
+    totalPages: number;
+  };
+}
+
 // Funções da API
 export const eventsApi = {
   getEvents: (params?: {
@@ -118,12 +129,27 @@ export const eventsApi = {
 
   getEventById: (id: number): Promise<Event> => {
     return api.get(`/event/${id}`).then(response => response.data);
-  }
+  },
 };
 
 // Auth API functions
 export const authApi = {
   login: (credentials: LoginRequest): Promise<LoginResponse> => {
     return api.post('/login', credentials).then(response => response.data);
-  }
+  },
+};
+
+// Categories API functions
+export const categoriesApi = {
+  getCategories: (params?: {
+    page?: number;
+    pageSize?: number;
+    name?: string;
+  }): Promise<CategoriesResponse> => {
+    return api.get('/categories', { params }).then(response => response.data);
+  },
+
+  getCategoryById: (id: number): Promise<Category> => {
+    return api.get(`/categories/${id}`).then(response => response.data);
+  },
 };

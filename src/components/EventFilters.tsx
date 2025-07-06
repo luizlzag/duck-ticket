@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { setFilters } from '../store/slices/eventsSlice';
+import { fetchCategories } from '../store/slices/categorySlice';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const EventFilters = () => {
   const dispatch = useAppDispatch();
   const filters = useAppSelector(state => state.events.filters);
+  const categories = useAppSelector(state => state.categories.categories);
+
+  useEffect(() => {
+    dispatch(fetchCategories({}));
+  }, [dispatch]);
 
   const handleFilterChange = (key: string, value: string) => {
-    // Convert "all" values back to empty strings for the filter logic
     const filterValue = value === 'all' ? '' : value;
     dispatch(setFilters({ [key]: filterValue }));
   };
@@ -44,10 +49,11 @@ const EventFilters = () => {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">Todas as categorias</SelectItem>
-              <SelectItem value="1">Música</SelectItem>
-              <SelectItem value="teatro">Teatro</SelectItem>
-              <SelectItem value="stand-up">Stand-Up</SelectItem>
-              <SelectItem value="esportes">Esportes</SelectItem>
+              {categories.map(category => (
+                <SelectItem key={category.id} value={category.id.toString()}>
+                  {category.name}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>

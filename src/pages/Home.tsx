@@ -1,18 +1,22 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { fetchEvents } from '../store/slices/eventsSlice';
+import { fetchCategories } from '../store/slices/categorySlice';
 import EventCard from '../components/EventCard';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
+import { Badge } from '@/components/ui/badge';
 
 const Home = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { events, loading, error } = useAppSelector(state => state.events);
+  const { categories, loading: categoriesLoading } = useAppSelector(state => state.categories);
 
   useEffect(() => {
     dispatch(fetchEvents({}));
+    dispatch(fetchCategories({}));
   }, [dispatch]);
 
   if (loading) {
@@ -20,7 +24,7 @@ const Home = () => {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Carregando eventos...</p>
+          <p className="text-gray-600">Carregando...</p>
         </div>
       </div>
     );
@@ -31,7 +35,7 @@ const Home = () => {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <p className="text-red-600 mb-4">Erro ao carregar eventos: {error}</p>
-          <button 
+          <button
             onClick={() => dispatch(fetchEvents({}))}
             className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
           >
@@ -42,18 +46,17 @@ const Home = () => {
     );
   }
 
-  // Simular categorização dos eventos (em uma implementação real, isso viria da API)
   const mostPurchasedEvents = events.slice(0, 6);
-  const partiesAndShows = events.filter(event => 
-    event.categories.some(cat => 
-      cat.name.toLowerCase().includes('música') || 
+  const partiesAndShows = events.filter(event =>
+    event.categories.some(cat =>
+      cat.name.toLowerCase().includes('música') ||
       cat.name.toLowerCase().includes('show') ||
       cat.name.toLowerCase().includes('festa')
     )
   ).slice(0, 6);
-  const corporateEvents = events.filter(event => 
-    event.categories.some(cat => 
-      cat.name.toLowerCase().includes('corporativo') || 
+  const corporateEvents = events.filter(event =>
+    event.categories.some(cat =>
+      cat.name.toLowerCase().includes('corporativo') ||
       cat.name.toLowerCase().includes('conferência') ||
       cat.name.toLowerCase().includes('workshop')
     )
@@ -67,7 +70,6 @@ const Home = () => {
           <p className="text-gray-600">{description}</p>
         </div>
       </div>
-      
       {events.length > 2 ? (
         <Carousel className="w-full">
           <CarouselContent className="-ml-2 md:-ml-4">
@@ -99,7 +101,7 @@ const Home = () => {
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             Encontre e compre ingressos para os melhores shows, teatros, conferências e festivais
           </p>
-          <Button 
+          <Button
             onClick={() => navigate('/events')}
             className="bg-white text-purple-600 hover:bg-gray-100 px-8 py-3 text-lg font-semibold"
           >
@@ -109,19 +111,56 @@ const Home = () => {
       </section>
 
       <div className="container mx-auto px-4 py-12">
-        <EventSection 
+        {/* Seção de Categorias */}
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Navegue por Categoria</h2>
+          {categoriesLoading ? (
+            <p className="text-center text-gray-500">Carregando categorias...</p>
+          ) : (
+            <div className="flex flex-wrap justify-center gap-4">
+              {/* --- MODIFICAÇÃO PRINCIPAL AQUI --- */}
+              {categories.map(category => {
+                // Converte a string SVG para um Data URI que a tag <img> pode usar.
+                const svgDataUri = `data:image/svg+xml;base64,${btoa(category.icon_svg)}`;
+
+                return (
+                  <Badge
+                    key={category.id}
+                    onClick={() => navigate(`/events?category=${category.id}`)}
+                    className="text-base font-normal py-2 px-4 cursor-pointer hover:bg-purple-100 transition-colors inline-flex items-center gap-2"
+                    variant="outline"
+                  >
+                    {/* Usamos a tag <img> com o Data URI */}
+                    {category.icon_svg && (
+                      <img 
+                        src={svgDataUri} 
+                        alt={`${category.name} icon`} 
+                        className="h-5 w-5" // As classes de tamanho agora funcionarão perfeitamente
+                      />
+                    )}
+                    <span>{category.name}</span>
+                  </Badge>
+                );
+              })}
+              {/* --- FIM DA MODIFICAÇÃO --- */}
+            </div>
+          )}
+        </section>
+
+        {/* Seções de Eventos */}
+        <EventSection
           title="Eventos mais comprados nas últimas 24h"
           events={mostPurchasedEvents}
           description="Os eventos que estão fazendo mais sucesso"
         />
 
-        <EventSection 
+        <EventSection
           title="Festas e Shows"
           events={partiesAndShows.length > 0 ? partiesAndShows : mostPurchasedEvents}
           description="Música, diversão e entretenimento"
         />
 
-        <EventSection 
+        <EventSection
           title="Eventos Corporativos"
           events={corporateEvents.length > 0 ? corporateEvents : mostPurchasedEvents}
           description="Conferências, workshops e networking"

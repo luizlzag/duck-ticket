@@ -140,23 +140,7 @@ const EventDetail = () => {
       </div>
 
       <div className="container mx-auto px-4 py-8">
-        {/* <-- MUDANÇA AQUI: O grid agora contém apenas a parte de informações e, condicionalmente, a compra por quantidade --> */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          
-          {/* Coluna de conteúdo principal - se ajusta se o mapa de assentos estiver ativo */}
-          <div className={performance.seatingEnabled ? 'lg:col-span-3' : 'lg:col-span-2'}>
-            <Card className="mb-6">
-              <CardHeader><CardTitle>Sobre o Evento</CardTitle></CardHeader>
-              <CardContent>
-                <p className="text-gray-700 mb-4">{event.description}</p>
-                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                  <h4 className="font-semibold text-yellow-800 mb-2">Política do Evento</h4>
-                  <p className="text-yellow-700 text-sm">{event.policy}</p>
-                </div>
-              </CardContent>
-            </Card>
-
-            {event.performances.length > 1 && (
+         {event.performances.length > 1 && (
               <Card className="mb-6">
                 <CardHeader><CardTitle>Datas Disponíveis</CardTitle></CardHeader>
                 <CardContent>
@@ -176,9 +160,30 @@ const EventDetail = () => {
                 </CardContent>
               </Card>
             )}
+        
+        {/* <-- MUDANÇA AQUI: O grid agora contém apenas a parte de informações e, condicionalmente, a compra por quantidade --> */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          
+          {/* Coluna de conteúdo principal - se ajusta se o mapa de assentos estiver ativo */}
+          <div className={performance.seatingEnabled ? 'lg:col-span-3' : 'lg:col-span-2'}>
+            <Card className="mb-6">
+              <CardHeader><CardTitle>Sobre o Evento</CardTitle></CardHeader>
+              <CardContent>
+                <p className="text-gray-700 mb-4">{event.description}</p>
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-yellow-800 mb-2">Política do Evento</h4>
+                  <p className="text-yellow-700 text-sm">{event.policy}</p>
+                </div>
+              </CardContent>
+            </Card>
+            
+
+           
           </div>
+          
 
           {/* Coluna de ingressos por quantidade - SÓ APARECE SE NÃO TIVER MAPA DE ASSENTOS */}
+          
           {!performance.seatingEnabled && (
             <div>
               <Card className="sticky top-24">

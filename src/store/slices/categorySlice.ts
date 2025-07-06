@@ -11,7 +11,7 @@ interface CategoriesState {
     name: string;
   };
   pagination: {
-    page: number;
+    page: number; 
     pageSize: number;
     total: number;
     totalPages: number;

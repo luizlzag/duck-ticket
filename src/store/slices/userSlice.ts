@@ -9,7 +9,7 @@ interface UserState {
     email: string;
   } | null;
   token: string | null;
-  purchaseHistory: any[];
+  purchaseHistory: unknown[];
   loading: boolean;
   error: string | null;
 }
@@ -53,7 +53,7 @@ const userSlice = createSlice({
       state.error = null;
       localStorage.removeItem('token');
     },
-    addToPurchaseHistory: (state, action: PayloadAction<any>) => {
+    addToPurchaseHistory: (state, action: PayloadAction<unknown>) => {
       state.purchaseHistory.push(action.payload);
     },
     clearError: (state) => {

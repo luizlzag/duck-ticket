@@ -131,7 +131,7 @@ const EventDetail = () => {
         <div className="absolute bottom-8 left-8 text-white">
           <div className="flex flex-wrap gap-2 mb-4">
             {event.categories.map(category => (
-              <Badge key={category.id} className="bg-purple-500">{category.name}</Badge>
+              <Badge key={category.id} className="bg-secondary">{category.name}</Badge>
             ))}
           </div>
           <h1 className="text-4xl font-bold mb-2">{event.title}</h1>

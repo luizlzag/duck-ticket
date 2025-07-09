@@ -120,7 +120,7 @@ export const eventsApi = {
   getEvents: (params?: {
     page?: number;
     pageSize?: number;
-    category?: string;
+    categoryId?: string;
     location?: string;
     date?: string;
   }): Promise<EventsResponse> => {

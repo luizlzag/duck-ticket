@@ -8,7 +8,7 @@ interface EventsState {
   loading: boolean;
   error: string | null;
   filters: {
-    category: string;
+    categoryId: number;
     location: string;
     date: string;
     search: string;
@@ -27,7 +27,7 @@ const initialState: EventsState = {
   loading: false,
   error: null,
   filters: {
-    category: '',
+    categoryId: 0,
     location: '',
     date: '',
     search: '',
@@ -42,7 +42,7 @@ const initialState: EventsState = {
 
 export const fetchEvents = createAsyncThunk(
   'events/fetchEvents',
-  async (params?: { page?: number; category?: string; location?: string; date?: string }) => {
+  async (params?: { page?: number; categoryId?: string; location?: string; date?: string }) => {
     const response = await eventsApi.getEvents(params);
     return response;
   }

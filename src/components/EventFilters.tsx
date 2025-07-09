@@ -41,14 +41,14 @@ const EventFilters = () => {
             Categoria
           </label>
           <Select 
-            value={filters.category || 'all'} 
-            onValueChange={(value) => handleFilterChange('category', value)}
+           value={filters.categoryId ? filters.categoryId.toString() : '0'}
+            onValueChange={(value) => handleFilterChange('categoryId', value)}
           >
             <SelectTrigger>
               <SelectValue placeholder="Todas as categorias" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Todas as categorias</SelectItem>
+              <SelectItem value={'0'} >Todas as categorias</SelectItem>
               {categories.map(category => (
                 <SelectItem key={category.id} value={category.id.toString()}>
                   {category.name}

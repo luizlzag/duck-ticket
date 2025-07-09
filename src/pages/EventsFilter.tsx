@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { fetchEvents } from '../store/slices/eventsSlice';
@@ -7,19 +6,19 @@ import EventFilters from '../components/EventFilters';
 
 const EventsFilter = () => {
   const dispatch = useAppDispatch();
+  //filters is now being used from the events state
   const { events, loading, error, filters } = useAppSelector(state => state.events);
 
+  // The useEffect hook now depends on the `filters` object.
+  // When filters change, this will re-run.
   useEffect(() => {
-    dispatch(fetchEvents({}));
-  }, [dispatch]);
+    // Pass the current filters to the fetchEvents action.
+    dispatch(fetchEvents(filters));
+  }, [dispatch, filters]); // Add filters as a dependency
 
-  // Filter events based on search term
-  const filteredEvents = events.filter(event => {
-    if (filters.search && !event.title.toLowerCase().includes(filters.search.toLowerCase())) {
-      return false;
-    }
-    return true;
-  });
+  // The client-side filtering is no longer needed,
+  // as the `events` array from the store is already filtered by the API.
+  const filteredEvents = events;
 
   if (loading) {
     return (
@@ -37,8 +36,8 @@ const EventsFilter = () => {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <p className="text-red-600 mb-4">Erro ao carregar eventos: {error}</p>
-          <button 
-            onClick={() => dispatch(fetchEvents({}))}
+          <button
+            onClick={() => dispatch(fetchEvents(filters))} // Also pass filters here
             className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
           >
             Tentar novamente
@@ -61,7 +60,7 @@ const EventsFilter = () => {
         </div>
 
         <EventFilters />
-        
+
         <div className="mb-6">
           <h2 className="text-2xl font-bold text-gray-800 mb-2">
             Resultados da Busca

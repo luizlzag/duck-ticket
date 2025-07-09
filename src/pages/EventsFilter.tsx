@@ -1,13 +1,24 @@
 import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import { fetchEvents } from '../store/slices/eventsSlice';
+import { fetchEvents, setFilters } from '../store/slices/eventsSlice';
 import EventCard from '../components/EventCard';
 import EventFilters from '../components/EventFilters';
 
 const EventsFilter = () => {
   const dispatch = useAppDispatch();
-  //filters is now being used from the events state
+  const location = useLocation();
   const { events, loading, error, filters } = useAppSelector(state => state.events);
+
+  // Set filters from URL on initial load
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const categoryId = params.get('categoryId');
+    if (categoryId) {
+      dispatch(setFilters({ categoryId: parseInt(categoryId, 10) }));
+    }
+  }, [dispatch, location.search]);
+
 
   // The useEffect hook now depends on the `filters` object.
   // When filters change, this will re-run.

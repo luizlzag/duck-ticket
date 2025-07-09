@@ -3,10 +3,17 @@ import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { fetchEvents } from '../store/slices/eventsSlice';
 import { fetchCategories } from '../store/slices/categorySlice';
 import EventCard from '../components/EventCard';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper/modules';
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import './swiper-custom.css'; 
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -71,17 +78,25 @@ const Home = () => {
         </div>
       </div>
       {events.length > 2 ? (
-        <Carousel className="w-full">
-          <CarouselContent className="-ml-2 md:-ml-4">
-            {events.map(event => (
-              <CarouselItem key={event.id} className="pl-2 md:pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
-                <EventCard event={event} />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
+        <Swiper
+          modules={[Navigation, Pagination]}
+          spaceBetween={16}
+          slidesPerView={2}
+          navigation
+          pagination={{ clickable: true }}
+          breakpoints={{
+            640: { slidesPerView: 2, spaceBetween: 8 },
+            768: { slidesPerView: 3, spaceBetween: 16 },
+            1024: { slidesPerView: 4, spaceBetween: 16 },
+          }}
+          className="w-full"
+        >
+          {events.map(event => (
+            <SwiperSlide key={event.id}>
+              <EventCard event={event} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
       ) : (
         <div className="text-center py-8">
           <p className="text-gray-500">Nenhum evento encontrado nesta categoria</p>
@@ -118,31 +133,26 @@ const Home = () => {
             <p className="text-center text-gray-500">Carregando categorias...</p>
           ) : (
             <div className="flex flex-wrap justify-center gap-4">
-              {/* --- MODIFICAÇÃO PRINCIPAL AQUI --- */}
               {categories.map(category => {
-                // Converte a string SVG para um Data URI que a tag <img> pode usar.
                 const svgDataUri = `data:image/svg+xml;base64,${btoa(category.icon_svg)}`;
-
                 return (
                   <Badge
                     key={category.id}
-                    onClick={() => navigate(`/events?category=${category.id}`)}
+                    onClick={() => navigate(`/events?categoryId=${category.id}`)}
                     className="text-base font-normal py-2 px-4 cursor-pointer hover:bg-purple-100 transition-colors inline-flex items-center gap-2"
                     variant="outline"
                   >
-                    {/* Usamos a tag <img> com o Data URI */}
                     {category.icon_svg && (
-                      <img 
-                        src={svgDataUri} 
-                        alt={`${category.name} icon`} 
-                        className="h-5 w-5" // As classes de tamanho agora funcionarão perfeitamente
+                      <img
+                        src={svgDataUri}
+                        alt={`${category.name} icon`}
+                        className="h-5 w-5"
                       />
                     )}
                     <span>{category.name}</span>
                   </Badge>
                 );
               })}
-              {/* --- FIM DA MODIFICAÇÃO --- */}
             </div>
           )}
         </section>

@@ -42,7 +42,7 @@ const initialState: EventsState = {
 
 export const fetchEvents = createAsyncThunk(
   'events/fetchEvents',
-  async (params?: { page?: number; categoryId?: string; location?: string; date?: string }) => {
+  async (params?: { page?: number; categoryId?: number; location?: string; date?: string }) => {
     const response = await eventsApi.getEvents(params);
     return response;
   }

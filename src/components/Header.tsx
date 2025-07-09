@@ -39,20 +39,20 @@ const Header = () => {
         <nav className="hidden md:flex items-center space-x-6">
           <button 
             onClick={() => navigate('/')}
-            className="text-gray-700 hover:text-purple-600 transition-colors"
+            className="text-gray-700 hover:text-secondary transition-colors delay-75"
           >
             Início
           </button>
           <button 
             onClick={() => navigate('/events')}
-            className="text-gray-700 hover:text-purple-600 transition-colors"
+            className="text-gray-700 hover:text-secondary transition-colors delay-75"
           >
             Buscar Eventos
           </button>
-          <a href="/categories" className="text-gray-700 hover:text-purple-600 transition-colors">
+          <a href="/categories" className="text-gray-700 hover:text-secondary transition-colors delay-75">
             Categorias
           </a>
-          <a href="/about" className="text-gray-700 hover:text-purple-600 transition-colors">
+          <a href="/about" className="text-gray-700 hover:text-secondary transition-colors delay-75">
             Sobre
           </a>
         </nav>

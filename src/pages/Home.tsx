@@ -108,7 +108,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-purple-600 via-blue-600 to-purple-800 text-white py-16">
+      <section className="bg-gradient-to-tl from-gradientVia  to-gradientTo text-white py-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl font-bold mb-4">
             Descubra Eventos Incríveis
@@ -118,7 +118,7 @@ const Home = () => {
           </p>
           <Button
             onClick={() => navigate('/events')}
-            className="bg-white text-purple-600 hover:bg-gray-100 px-8 py-3 text-lg font-semibold"
+            className="bg-white text-primary hover:bg-gray-100 px-8 py-3 text-lg font-semibold"
           >
             Buscar Eventos
           </Button>

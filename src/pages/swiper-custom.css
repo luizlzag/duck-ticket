@@ -1,7 +1,7 @@
 /* Custom styles for Swiper navigation */
 .swiper-button-next,
 .swiper-button-prev {
-  color: #7c3aed; /* Tailwind's purple-600 */
+  color: var(--primary); /* Tailwind's purple-600 */
   background-color: rgba(255, 255, 255, 0.8);
   border-radius: 50%;
   width: 40px;
@@ -11,7 +11,7 @@
 
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
-  background-color: #6b21a8; /* Tailwind's purple-800 */
+  background-color: var(--primary); /* Tailwind's purple-800 */
   color: #ffffff; /* White for contrast */
 }
 
@@ -29,7 +29,7 @@
 }
 
 .swiper-pagination-bullet-active {
-  background-color: #7c3aed; /* Tailwind's purple-600 */
+  background-color:  var(--primary); /* Tailwind's purple-600 */
 }
 
 /* Ensure pagination is visible and centered */

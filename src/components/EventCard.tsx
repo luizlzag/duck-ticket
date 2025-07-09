@@ -40,7 +40,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
         />
         <div className="absolute top-4 left-4">
           {event.categories.map(category => (
-            <Badge key={category.id} className="bg-purple-500 text-white mr-2">
+            <Badge key={category.id} className="bg-primary text-white mr-2">
               {category.name}
             </Badge>
           ))}

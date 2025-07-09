@@ -198,7 +198,7 @@ const EventDetail = () => {
                         <div className="flex justify-between items-start mb-3">
                           <div>
                             <h4 className="font-semibold">{ticket.name}</h4>
-                            <p className="text-2xl font-bold text-green-600">R$ {ticket.price.toFixed(2)}</p>
+                            <p className="text-2xl font-bold text-price">R$ {ticket.price.toFixed(2)}</p>
                           </div>
                         </div>
                         <div className="flex items-center space-x-3">
@@ -208,7 +208,7 @@ const EventDetail = () => {
                             <Button variant="outline" size="sm" onClick={() => updateTicketQuantity(ticket.id, (selectedTickets[ticket.id] || 0) + 1)}>+</Button>
                           </div>
                           <Button
-                            className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                            className="flex-1 bg-gradient-to-r from-gradientFrom to-gradientTo hover:from-gradientFrom hover:gradientTo trans"
                             onClick={() => handleAddToCartByQuantity(ticket.id, ticket.name, ticket.price)}
                             disabled={!selectedTickets[ticket.id] || selectedTickets[ticket.id] === 0}
                           >
@@ -253,7 +253,7 @@ const EventDetail = () => {
                       Total: R$ {calculateTotalPrice().toFixed(2)}
                     </div>
                     <Button
-                      className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                      className="w-full custom-bg-hover-effect bg-gradient-to-r from-gradientFrom to-gradientTo  hover:from-gradientFrom hover:to-gradientTo "
                       onClick={handleAddToCartBySeats}
                     >
                       Adicionar ao Carrinho

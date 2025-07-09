@@ -5,10 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
 const Profile = () => {
-  const user = useAppSelector(state => state.user.user);
+  const { user, isAuthenticated } = useAppSelector(state => state.user);
   const purchaseHistory = useAppSelector(state => state.user.purchaseHistory);
 
-  if (!user) {
+  if (!isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -33,11 +33,11 @@ const Profile = () => {
                 <div className="space-y-3">
                   <div>
                     <p className="text-sm text-gray-600">Nome</p>
-                    <p className="font-semibold">{user.name}</p>
+                    <p className="font-semibold">{user?.name || "Luiz"}</p>
                   </div>
                   <div>
                     <p className="text-sm text-gray-600">Email</p>
-                    <p className="font-semibold">{user.email}</p>
+                    <p className="font-semibold">{user?.email || "teste"}</p>
                   </div>
                 </div>
               </CardContent>

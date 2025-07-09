@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
+import { Navigate } from 'react-router-dom';
 
 interface LoginProps {
   onClose: () => void;
@@ -45,13 +46,16 @@ const Login = ({ onClose }: LoginProps) => {
 
   useEffect(() => {
     if (isAuthenticated) {
+      
       toast({
         title: "Sucesso",
         description: "Login realizado com sucesso!"
       });
+      
       onClose();
     }
   }, [isAuthenticated, onClose, toast]);
+  
 
   useEffect(() => {
     if (error) {
@@ -63,6 +67,10 @@ const Login = ({ onClose }: LoginProps) => {
       dispatch(clearError());
     }
   }, [error, dispatch, toast]);
+
+  if (isAuthenticated) {
+    return <Navigate to="/profile" replace />;
+  }
 
   return (
     <Card className="w-full max-w-md mx-auto">

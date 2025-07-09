@@ -14,10 +14,13 @@ interface UserState {
   error: string | null;
 }
 
+const tokenFromStorage = localStorage.getItem('token');
+
+
 const initialState: UserState = {
-  isAuthenticated: false,
+  isAuthenticated: Boolean(tokenFromStorage), 
   user: null,
-  token: localStorage.getItem('token'),
+  token: tokenFromStorage,
   purchaseHistory: [],
   loading: false,
   error: null,

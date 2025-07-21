@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { useNavigate } from 'react-router-dom';
 import Login from './Login';
 import { ShoppingCart,CircleUser  } from 'lucide-react';
+import dtlogo from '../../public/DT Logo PNG - 1.png';
 
 const Header = () => {
   const dispatch = useAppDispatch();
@@ -27,13 +28,7 @@ const Header = () => {
     <header className="bg-white shadow-lg sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <h1 
-            className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent cursor-pointer"
-            onClick={() => navigate('/')}
-          >
-            
-            DuckTicket
-          </h1>
+         <img src={dtlogo} width={150} height={"auto"}/>
         </div>
 
         <nav className="hidden md:flex items-center space-x-6">

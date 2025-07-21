@@ -169,10 +169,16 @@ const EventDetail = () => {
             <Card className="mb-6">
               <CardHeader><CardTitle>Sobre o Evento</CardTitle></CardHeader>
               <CardContent>
-                <p className="text-gray-700 mb-4">{event.description}</p>
+                 <div 
+                    className="text-gray-700 mb-4" 
+                    dangerouslySetInnerHTML={{ __html: event.description }} 
+                  />
                 <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
                   <h4 className="font-semibold text-yellow-800 mb-2">Política do Evento</h4>
-                  <p className="text-yellow-700 text-sm">{event.policy}</p>
+                     <div 
+                      className="text-yellow-700 text-sm" 
+                      dangerouslySetInnerHTML={{ __html: event.policy }} 
+                    />
                 </div>
               </CardContent>
             </Card>

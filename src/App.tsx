@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { store } from './store';
 import Header from './components/Header';
 import Cart from './components/Cart';
+import Footer from './components/Footer';
 import Home from "./pages/Home";
 import EventDetail from "./pages/EventDetail";
 import EventsFilter from "./pages/EventsFilter";
@@ -24,17 +25,20 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <div className="min-h-screen bg-background">
+          <div className="min-h-screen bg-background flex flex-col">
             <Header />
             <Cart />
-            <Routes>
-              <Route path="/" element={<Home />} />
-               <Route path="/events" element={<EventsFilter />} />
-              <Route path="/event/:id" element={<EventDetail />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <main className="flex-1">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                 <Route path="/events" element={<EventsFilter />} />
+                <Route path="/event/:id" element={<EventDetail />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </main>
+            <Footer />
           </div>
         </BrowserRouter>
       </TooltipProvider>

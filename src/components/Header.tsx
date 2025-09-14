@@ -28,7 +28,7 @@ const Header = () => {
     <header className="bg-white shadow-lg sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center space-x-4">
-         <img src={dtlogo} width={150} height={"auto"}/>
+         <a href="/"><img src={dtlogo} width={150} height={"auto"}/></a>
         </div>
 
         <nav className="hidden md:flex items-center space-x-6">

@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../hooks/redux';
 import { removeFromCart, updateQuantity, toggleCart, setCartOpen } from '../store/slices/cartSlice';
 import { Button } from '@/components/ui/button';
@@ -10,8 +10,22 @@ const Cart = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { items, total, isOpen } = useAppSelector(state => state.cart);
+  const [shouldRender, setShouldRender] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    if (isOpen) {
+      setShouldRender(true);
+      // Força um re-render para garantir que a transição funcione
+      setTimeout(() => setIsAnimating(true), 10);
+    } else {
+      setIsAnimating(false);
+      const timer = setTimeout(() => setShouldRender(false), 300);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
+
+  if (!shouldRender) return null;
 
   const handleCheckout = () => {
     dispatch(setCartOpen(false));
@@ -19,8 +33,12 @@ const Cart = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-end">
-      <div className="bg-white w-full max-w-md h-full overflow-y-auto">
+    <div className={`fixed inset-0 bg-black z-50 flex justify-end transition-opacity duration-300 ${
+      isAnimating ? 'bg-opacity-50' : 'bg-opacity-0'
+    }`}>
+      <div className={`bg-white w-full max-w-md h-full overflow-y-auto transform transition-transform duration-300 ease-in-out ${
+        isAnimating ? 'translate-x-0' : 'translate-x-full'
+      }`}>
         <div className="p-4 border-b">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold">Carrinho</h2>
@@ -42,10 +60,14 @@ const Cart = () => {
           ) : (
             <>
               <div className="space-y-4 mb-6">
-                {items.map((item) => {
+                {items.map((item, index) => {
                   const itemId = `${item.eventId}-${item.ticketId}-${item.performanceId}`;
                   return (
-                    <Card key={itemId}>
+                    <Card 
+                      key={itemId}
+                      className="animate-in slide-in-from-right-4 fade-in duration-300"
+                      style={{ animationDelay: `${index * 50}ms` }}
+                    >
                       <CardContent className="p-4">
                         <h4 className="font-semibold text-sm">{item.eventTitle}</h4>
                         <p className="text-xs text-gray-600 mb-2">{item.venue}</p>
@@ -106,7 +128,7 @@ const Cart = () => {
                 </div>
 
                 <Button
-                  className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800"
+                  className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 animate-pulse"
                   onClick={handleCheckout}
                   disabled={items.length === 0}
                 >

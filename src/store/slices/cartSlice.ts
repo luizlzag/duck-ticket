@@ -45,6 +45,8 @@ const cartSlice = createSlice({
       }
 
       state.total = state.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      // Abre automaticamente o carrinho quando um item é adicionado
+      state.isOpen = true;
     },
     removeFromCart: (state, action: PayloadAction<string>) => {
       state.items = state.items.filter(item => 
